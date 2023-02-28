@@ -11,7 +11,7 @@ RUN apt-get update -y \
  && apt-get install -y libglib2.0-0 libsm6 libxext6 libxrender-dev
 
 # Install Miniconda
-RUN curl -so /miniconda.sh https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh \
+RUN curl -so /miniconda.sh https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh \
  && chmod +x /miniconda.sh \
  && /miniconda.sh -b -p /miniconda \
  && rm /miniconda.sh
@@ -33,13 +33,13 @@ RUN pip install ninja yacs cython matplotlib opencv-python tqdm
 
 # Install PyTorch 1.0 Nightly
 ARG CUDA
-RUN conda install pytorch-nightly cudatoolkit=${CUDA} -c pytorch \
+RUN conda install cudatoolkit=${CUDA} pytorch==1.0.0 torchvision==0.2.1 cuda90 -c pytorch \
  && conda clean -ya
 
 # Install TorchVision master
-RUN git clone https://github.com/pytorch/vision.git \
- && cd vision \
- && python setup.py install
+# RUN git clone https://github.com/pytorch/vision.git \
+#  && cd vision \
+#  && python setup.py install
 
 # install pycocotools
 RUN git clone https://github.com/cocodataset/cocoapi.git \
